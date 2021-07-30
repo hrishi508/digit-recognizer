@@ -1,0 +1,23 @@
+{
+  "name": "digit-recognizer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "aryan02420",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aryan02420/digit-recognizer.git"
+  },
+  "keywords": [
+    "mnist",
+    "digit"
+  ],
+  "bugs": {
+    "url": "https://github.com/aryan02420/digit-recognizer/issues"
+  },
+  "homepage": "https://github.com/aryan02420/digit-recognizer#readme",
+  "description": ""
+}
