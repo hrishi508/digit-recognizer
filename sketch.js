@@ -26,7 +26,7 @@
 
     p.touchStarted = () => {
       touchTime = Date.now() - touchTime
-      if (!mouseInsideCanvas()) return false
+      if (!mouseInsideCanvas()) return true
       if (touchTime > clearDelay) {
         pg.clear()
       }
@@ -37,7 +37,7 @@
         p.mouseY * scaleFactor
       )
       display()
-      return false // prevent context menu
+      if (mouseInsideCanvas()) return false // prevent context menu
     }
 
     p.mousePressed = () => {
@@ -47,7 +47,7 @@
     p.touchEnded = () => {
       touchTime = Date.now()
       result.html(model.predict(tf.tensor([getPixels()])).argMax(1).dataSync()[0])
-      if (!mouseInsideCanvas()) return false
+      if (mouseInsideCanvas()) return false
     }
 
     p.touchMoved = () => {
