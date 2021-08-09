@@ -21,9 +21,12 @@
       drawCanvas = p.createGraphics(drawSize, drawSize)
       scaleFactor = drawSize / displaySize
       drawCanvas.noSmooth()
+      drawCanvas.pixelDensity(1)
       drawCanvas.strokeWeight(1.6)
       drawCanvas.stroke(255)
       finalCanvas = p.createGraphics(finalSize, finalSize)
+      finalCanvas.noSmooth()
+      finalCanvas.pixelDensity(1)
       result = p.createP('draw here 👆')
       result.style('font-size', '2rem')
       display()
