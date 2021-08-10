@@ -112,13 +112,13 @@
         (finalSize - drawSize) / 2
       )
       finalCanvas.loadPixels()
-      console.log(Math.sqrt(finalCanvas.pixels.length >> 2))
+      
       for (let i = 0; i < pixels.length; ++i) {
         pixels[i] = []
         for (let j = 0; j < pixels.length; ++j) {
           pixelindex = pixels.length * i + j
           actualindex = (pixelindex << 2) + alphachannel
-          pixels[i][j] = finalCanvas.pixels[actualindex] / 255
+          pixels[i][j] = [finalCanvas.pixels[actualindex] / 255]
         }
       }
       return pixels
