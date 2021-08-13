@@ -28,6 +28,8 @@
       finalCanvas.pixelDensity(1)
       display()
       p.touchEnded()
+      displayPredictions(d3.select('#d3'), new Array(10).fill(0))
+      d3.select('#loading').remove()
     }
 
     p.touchStarted = () => {
@@ -121,9 +123,9 @@
 
     function displayPredictions(selection, prediction) {
       const svg = selection.selectAll('svg').data([null])
-      svg.enter().append('svg')
+      const svgEnter = svg.enter().append('svg')
       svg.exit().remove()
-      svg.attr('viewBox', '0 0 150 210').attr('width', 300)
+      svg.merge(svgEnter).attr('viewBox', '0 0 150 210').attr('width', 300)
 
       svg
         .selectAll('rect')
@@ -143,9 +145,7 @@
         .attr('transform', (d, i) => `translate(0, ${20 + i * 20})`)
       rowGroup.exit().remove()
 
-      rowGroupEnter
-        .append('text')
-        .attr('x', 10)
+      rowGroupEnter.append('text').attr('x', 10)
       rowGroupEnter
         .append('rect')
         .attr('x', 25)
