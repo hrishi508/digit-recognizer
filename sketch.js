@@ -6,12 +6,11 @@
     let drawCanvas
     let finalCanvas
     const displaySize = 500
-    const drawSize = 20
+    const drawSize = 22
     const finalSize = 28
     let scaleFactor = 1
     const clearDelay = 600
-    let result
-    let reevaluate = false
+    let reevaluate = true
 
     p.setup = () => {
       p.createCanvas(displaySize, displaySize)
@@ -27,14 +26,13 @@
       finalCanvas = p.createGraphics(finalSize, finalSize)
       finalCanvas.noSmooth()
       finalCanvas.pixelDensity(1)
-      result = p.createP('draw here 👆')
-      result.style('font-size', '2rem')
       display()
+      p.touchEnded()
     }
 
     p.touchStarted = () => {
-      touchTime = Date.now() - touchTime
       if (!mouseInsideCanvas()) return true
+      touchTime = Date.now() - touchTime
       if (touchTime > clearDelay) {
         drawCanvas.clear()
       }
@@ -46,7 +44,7 @@
       )
       reevaluate = true
       display()
-      if (mouseInsideCanvas()) return false // prevent context menu
+      return false // prevent context menu
     }
 
     p.mousePressed = () => {
@@ -54,17 +52,14 @@
     }
 
     p.touchEnded = () => {
-      touchTime = Date.now()
       if (reevaluate) {
+        touchTime = Date.now()
         let prediction = model.predict(tf.tensor([getPixels()])).arraySync()[0]
-        result.html(
-          prediction
-            .map((x, i) => `<p>${i} :\t${Math.round(x * 100)}</p>`)
-            .join('')
-        )
+        displayPredictions(d3.select('#d3'), prediction)
         reevaluate = false
       }
-      if (mouseInsideCanvas()) return false
+      if (!mouseInsideCanvas()) return true
+      return false // prevent context menu
     }
 
     p.touchMoved = () => {
@@ -112,7 +107,7 @@
         (finalSize - drawSize) / 2
       )
       finalCanvas.loadPixels()
-      
+
       for (let i = 0; i < pixels.length; ++i) {
         pixels[i] = []
         for (let j = 0; j < pixels.length; ++j) {
@@ -123,7 +118,51 @@
       }
       return pixels
     }
+
+    function displayPredictions(selection, prediction) {
+      const svg = selection.selectAll('svg').data([null])
+      svg.enter().append('svg')
+      svg.exit().remove()
+      svg.attr('viewBox', '0 0 150 210').attr('width', 300)
+
+      svg
+        .selectAll('rect')
+        .data([null])
+        .enter()
+        .append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('height', 210)
+        .attr('width', 150)
+        .attr('fill', 'transparent')
+
+      const rowGroup = svg.selectAll('g').data(prediction)
+      const rowGroupEnter = rowGroup
+        .enter()
+        .append('g')
+        .attr('transform', (d, i) => `translate(0, ${20 + i * 20})`)
+      rowGroup.exit().remove()
+
+      rowGroupEnter
+        .append('text')
+        .attr('x', 10)
+      rowGroupEnter
+        .append('rect')
+        .attr('x', 25)
+        .attr('y', -13)
+        .attr('height', 16)
+        .attr('rx', 1)
+      rowGroup
+        .merge(rowGroupEnter)
+        .select('text')
+        .text((d, i) => i)
+      rowGroup
+        .merge(rowGroupEnter)
+        .select('rect')
+        .transition()
+        .attr('width', (d) => 112 * d + 0.0001)
+    }
   }
 
-  let myp5 = new p5(sketch)
+  let myp5 = new p5(sketch, 'p5')
 })()

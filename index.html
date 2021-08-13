@@ -4,9 +4,23 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Digit Recognizer </title>
   </head>
   <body>
+    <main id="app">
+      <div id="p5"></div>
+      <div id="d3"><svg></svg>
+      <svg></svg></div>
+    </main>
+    <aside>
+      <a href="https://github.com/aryan02420/digit-recognizer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 20 20" fill="#2a2a2a">
+          <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </aside>
     <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/d3/dist/d3.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/p5/lib/p5.min.js"></script>
     <script defer src="sketch.js"></script>
   </body>
